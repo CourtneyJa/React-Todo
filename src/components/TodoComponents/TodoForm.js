@@ -5,19 +5,20 @@ class TodoForm extends React.Component{
     constructor(){
         super();
         this.state={
-            job:''
-        }
+            taskName:'',
+        };
     }
     handleChanges = e=>{
+        
         this.setState({
-            [e.target.name]: e.target.value
+            taskName: e.target.value
         })
     }
     handleSubmit = e=>{
         e.preventDefault();
-        this.props.addJob(this.state.addJob);
-        this.setState({newJob: ''})
-        console.log('mic check')               
+        this.props.addJob(this.state.taskName);
+        this.setState({taskName: ''},console.log('mic check'));
+                      
     }
 
     render(){
@@ -26,10 +27,10 @@ class TodoForm extends React.Component{
                 <form onSubmit={this.handleSubmit}>
                     <input
                         type='text'
-                        value={this.job}
-                        name='job'
+                        name='task'
+                        value={this.state.taskName || ''}                        
                         onChange={this.handleChanges}/>
-                    <button type='submit'>Add Todo</button>
+                    <button>Add Todo</button>
                 </form>               
             </div>
         )

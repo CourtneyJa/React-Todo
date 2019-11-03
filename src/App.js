@@ -1,6 +1,7 @@
 import React from 'react';
 import TodoList from './components/TodoComponents/TodoList';
 import TodoForm from './components/TodoComponents/TodoForm';
+import './components/TodoComponents/Todo.css';
 
 
 const starterList=[
@@ -23,48 +24,57 @@ class App extends React.Component {
   constructor(){
     super();
     this.state ={
-      job: starterList     
+      jobs: starterList     
     };
   }
 
   toggleJob = id =>{
     this.setState({
-      job: this.state.job.map(job=>{
+      jobs: this.state.jobs.map(job=>{
         if(job.id === id){
           return{
             ...job, completed: !job.completed
           };
 
-        }else{
-          return job;
         }
+          return job;
+        
       })
     })
   }
 
-  addJob = taskName =>{
-    const newJob = {
-      job: taskName,
-      id: Date.now(),
-      completed: false
-    }
+  addJob = ( taskName) =>{
     this.setState({
-      job: [...this.state.job, newJob]
-    });
+      jobs: [...this.state.jobs, {
+        name: taskName,
+        id: Date.now(),
+        completed: false
+      }]
+    }, console.log("add item:", taskName));
     
   };
 
   clearCompleted = () =>{
     this.setState({
-      job: this.state.job.filter(job => !job.completed)
-    })
-  }
+      jobs: this.state.jobs.filter(job => {return !job.completed;})
+    });
+  };
+
+  // deleteTodo = ()=>{
+  //   this.setState({
+  //     job: this.state.job.filter(job =>!job.completed)
+  //   })
+  // }
   render() {
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>
-        <TodoList jobs={this.state.job} toggleJob={this.toggleJob} clearCompleted={this.clearCompleted}/>
-        <TodoForm addJob={this.addJob} />
+        <div>
+          <TodoList jobs={this.state.jobs} toggleJob={this.toggleJob} clearCompleted={this.clearCompleted} />
+        </div>
+        <div>
+          <TodoForm addJob={this.addJob} />
+        </div>
       </div>
     );
   }
